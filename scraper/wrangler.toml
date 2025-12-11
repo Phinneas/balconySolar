@@ -1,0 +1,89 @@
+name = "balcony-solar-scraper"
+main = "src/index.js"
+compatibility_date = "2024-01-01"
+type = "service"
+
+# Environment variables
+[env.production]
+vars = { ENVIRONMENT = "production" }
+
+[env.staging]
+vars = { ENVIRONMENT = "staging" }
+
+# Cron trigger for weekly updates (Monday 2 AM UTC)
+# Cron expression: minute hour day month day-of-week
+# 0 2 * * 1 = Every Monday at 2:00 AM UTC
+[triggers]
+crons = ["0 2 * * 1"]
+
+# Production environment configuration
+[env.production]
+vars = { ENVIRONMENT = "production" }
+
+# Teable API configuration
+[[env.production.vars]]
+name = "TEABLE_API_URL"
+text = "https://app.teable.ai/api"
+
+[[env.production.vars]]
+name = "TEABLE_BASE_ID"
+text = "bseTnc7nTi3FYus3yIk"
+
+[[env.production.vars]]
+name = "TEABLE_API_TOKEN"
+text = "teable_accQGmhU1fVBigSZL4a_gsnFqNXarx/RjkgVZXnieOhSeMkSmyugBV0N9Mekvfk="
+
+# API cache invalidation
+[[env.production.vars]]
+name = "API_CACHE_INVALIDATE_URL"
+text = "https://api.solarcurrents.com/api/cache-invalidate"
+
+# Admin notification settings
+[[env.production.vars]]
+name = "ADMIN_EMAIL"
+text = "admin@solarcurrents.com"
+
+# Monitoring and alerting
+[[env.production.vars]]
+name = "ENABLE_ERROR_NOTIFICATIONS"
+text = "true"
+
+[[env.production.vars]]
+name = "MAX_EXECUTION_TIME_MS"
+text = "30000"
+
+[[env.production.vars]]
+name = "RETRY_ATTEMPTS"
+text = "3"
+
+[[env.production.vars]]
+name = "RETRY_BACKOFF_MS"
+text = "5000"
+
+# Staging environment configuration
+[env.staging]
+vars = { ENVIRONMENT = "staging" }
+
+[[env.staging.vars]]
+name = "TEABLE_API_URL"
+text = "https://app.teable.ai/api"
+
+[[env.staging.vars]]
+name = "TEABLE_BASE_ID"
+text = "bseTnc7nTi3FYus3yIk"
+
+[[env.staging.vars]]
+name = "TEABLE_API_TOKEN"
+text = "teable_accQGmhU1fVBigSZL4a_gsnFqNXarx/RjkgVZXnieOhSeMkSmyugBV0N9Mekvfk="
+
+[[env.staging.vars]]
+name = "API_CACHE_INVALIDATE_URL"
+text = "https://api-staging.solarcurrents.com/api/cache-invalidate"
+
+[[env.staging.vars]]
+name = "ADMIN_EMAIL"
+text = "staging@solarcurrents.com"
+
+[[env.staging.vars]]
+name = "ENABLE_ERROR_NOTIFICATIONS"
+text = "false"

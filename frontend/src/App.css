@@ -1,0 +1,251 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+header {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 2rem;
+  text-align: center;
+}
+
+header h1 {
+  font-size: 2rem;
+  margin: 0;
+}
+
+main {
+  flex: 1;
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+  width: 100%;
+}
+
+.error {
+  background-color: #fee;
+  color: #c33;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  border-left: 4px solid #c33;
+}
+
+.warning {
+  background-color: #fef3c7;
+  color: #92400e;
+  padding: 1rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  border-left: 4px solid #f59e0b;
+}
+
+.offline-indicator {
+  background-color: #fef3c7;
+  color: #92400e;
+  padding: 0.75rem;
+  text-align: center;
+  font-size: 0.9rem;
+  border-bottom: 2px solid #f59e0b;
+}
+
+.missing-data {
+  color: #f59e0b;
+  font-style: italic;
+}
+
+.state-selector {
+  margin-bottom: 2rem;
+}
+
+.state-selector label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.state-selector select {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  min-height: 44px;
+}
+
+.state-selector select:hover {
+  border-color: #667eea;
+}
+
+.state-selector select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.state-selector select:disabled {
+  background-color: #f5f5f5;
+  cursor: not-allowed;
+}
+
+.loading {
+  text-align: center;
+  padding: 2rem;
+  font-size: 1.1rem;
+  color: #666;
+}
+
+.state-results {
+  background: white;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.state-results h2 {
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.legal-status {
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.legal {
+  color: #22c55e;
+}
+
+.illegal {
+  color: #ef4444;
+}
+
+.state-info {
+  border-top: 1px solid #eee;
+  padding-top: 1.5rem;
+}
+
+.state-info p {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.state-info strong {
+  color: #333;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  header h1 {
+    font-size: 1.5rem;
+  }
+
+  main {
+    margin: 1rem auto;
+  }
+
+  .state-results {
+    padding: 1.5rem;
+  }
+
+  .legal-status {
+    font-size: 1.25rem;
+  }
+}
+
+@media (max-width: 320px) {
+  header {
+    padding: 1rem;
+  }
+
+  header h1 {
+    font-size: 1.25rem;
+  }
+
+  main {
+    margin: 0.5rem auto;
+    padding: 0 0.5rem;
+  }
+
+  .state-results {
+    padding: 1rem;
+  }
+}
+
+/* Print styles */
+@media print {
+  * {
+    background: white !important;
+    color: black !important;
+    box-shadow: none !important;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  header {
+    background: white !important;
+    color: #000 !important;
+    border-bottom: 2px solid #000;
+    padding: 1rem;
+    page-break-after: avoid;
+  }
+
+  header h1 {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+
+  main {
+    max-width: 100%;
+    margin: 0;
+    padding: 1rem;
+  }
+
+  .state-selector,
+  .loading,
+  .share-section,
+  button,
+  .share-button,
+  .offline-indicator,
+  .warning {
+    display: none !important;
+  }
+
+  .state-results {
+    box-shadow: none !important;
+    border: 1px solid #000;
+    page-break-inside: avoid;
+    margin: 0;
+    padding: 1rem;
+  }
+
+  .error {
+    display: none !important;
+  }
+
+  a {
+    color: #000 !important;
+    text-decoration: underline;
+  }
+
+  /* Optimize spacing for print */
+  h1, h2, h3 {
+    page-break-after: avoid;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  p {
+    orphans: 3;
+    widows: 3;
+  }
+}

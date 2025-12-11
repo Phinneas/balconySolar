@@ -1,0 +1,765 @@
+{
+  "states": [
+    {
+      "code": "ca",
+      "name": "California",
+      "abbreviation": "CA",
+      "isLegal": true,
+      "maxWattage": 800,
+      "keyLaw": "SB 709 (2024)",
+      "dataSource": "https://www.cpuc.ca.gov/",
+      "details": [
+        {
+          "category": "interconnection",
+          "required": false,
+          "description": "Notification to utility required but no formal agreement needed for systems under 800W",
+          "sourceUrl": "https://www.cpuc.ca.gov/"
+        },
+        {
+          "category": "permit",
+          "required": false,
+          "description": "No building permit required for residential systems under 800W",
+          "sourceUrl": "https://www.cpuc.ca.gov/"
+        },
+        {
+          "category": "outlet",
+          "required": true,
+          "description": "Standard Schuko wall outlet allowed as of May 2024",
+          "sourceUrl": "https://www.cpuc.ca.gov/"
+        }
+      ],
+      "resources": [
+        {
+          "title": "California Public Utilities Commission",
+          "url": "https://www.cpuc.ca.gov/",
+          "resourceType": "official"
+        },
+        {
+          "title": "California Solar Initiative",
+          "url": "https://www.gosolarcalifornia.ca.gov/",
+          "resourceType": "guide"
+        }
+      ]
+    },
+    {
+      "code": "ny",
+      "name": "New York",
+      "abbreviation": "NY",
+      "isLegal": true,
+      "maxWattage": 600,
+      "keyLaw": "NY-Sun Program",
+      "dataSource": "https://www.dec.ny.gov/",
+      "details": [
+        {
+          "category": "interconnection",
+          "required": false,
+          "description": "Notification to utility required but no formal agreement for systems under 600W",
+          "sourceUrl": "https://www.dec.ny.gov/"
+        },
+        {
+          "category": "permit",
+          "required": false,
+          "description": "No permit required for residential systems under 600W",
+          "sourceUrl": "https://www.dec.ny.gov/"
+        },
+        {
+          "category": "outlet",
+          "required": true,
+          "description": "Must be hardwired or use approved outlet",
+          "sourceUrl": "https://www.dec.ny.gov/"
+        }
+      ],
+      "resources": [
+        {
+          "title": "New York Department of Environmental Conservation",
+          "url": "https://www.dec.ny.gov/",
+          "resourceType": "official"
+        }
+      ]
+    },
+    {
+      "code": "ut",
+      "name": "Utah",
+      "abbreviation": "UT",
+      "isLegal": true,
+      "maxWattage": 1200,
+      "keyLaw": "HB 340 (2024)",
+      "dataSource": "https://psc.utah.gov/",
+      "details": [
+        {
+          "category": "interconnection",
+          "required": false,
+          "description": "Simple notification only, no formal agreement",
+          "sourceUrl": "https://psc.utah.gov/"
+        },
+        {
+          "category": "permit",
+          "required": false,
+          "description": "No permit required for systems under 1200W",
+          "sourceUrl": "https://psc.utah.gov/"
+        },
+        {
+          "category": "outlet",
+          "required": true,
+          "description": "Standard outlet allowed",
+          "sourceUrl": "https://psc.utah.gov/"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Utah Public Service Commission",
+          "url": "https://psc.utah.gov/",
+          "resourceType": "official"
+        }
+      ]
+    },
+    {
+      "code": "tx",
+      "name": "Texas",
+      "abbreviation": "TX",
+      "isLegal": true,
+      "maxWattage": 600,
+      "keyLaw": "Texas Utility Code §49.452",
+      "dataSource": "https://www.puc.texas.gov/",
+      "details": [
+        {
+          "category": "interconnection",
+          "required": true,
+          "description": "Interconnection agreement required with utility",
+          "sourceUrl": "https://www.puc.texas.gov/"
+        },
+        {
+          "category": "permit",
+          "required": false,
+          "description": "No permit required for residential systems",
+          "sourceUrl": "https://www.puc.texas.gov/"
+        },
+        {
+          "category": "outlet",
+          "required": true,
+          "description": "Must comply with electrical code",
+          "sourceUrl": "https://www.puc.texas.gov/"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Public Utility Commission of Texas",
+          "url": "https://www.puc.texas.gov/",
+          "resourceType": "official"
+        }
+      ]
+    },
+    {
+      "code": "fl",
+      "name": "Florida",
+      "abbreviation": "FL",
+      "isLegal": true,
+      "maxWattage": 600,
+      "keyLaw": "Florida Statute 366.94",
+      "dataSource": "https://www.psc.state.fl.us/",
+      "details": [
+        {
+          "category": "interconnection",
+          "required": false,
+          "description": "Notification to utility required but no formal agreement for systems under 600W",
+          "sourceUrl": "https://www.psc.state.fl.us/"
+        },
+        {
+          "category": "permit",
+          "required": false,
+          "description": "No permit required for residential systems under 600W",
+          "sourceUrl": "https://www.psc.state.fl.us/"
+        },
+        {
+          "category": "outlet",
+          "required": true,
+          "description": "Must be hardwired connection",
+          "sourceUrl": "https://www.psc.state.fl.us/"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Florida Public Service Commission",
+          "url": "https://www.psc.state.fl.us/",
+          "resourceType": "official"
+        }
+      ]
+    },
+    {
+      "code": "ma",
+      "name": "Massachusetts",
+      "abbreviation": "MA",
+      "isLegal": true,
+      "maxWattage": 600,
+      "keyLaw": "Massachusetts Solar Incentive Program",
+      "dataSource": "https://www.mass.gov/",
+      "details": [
+        {
+          "category": "interconnection",
+          "required": false,
+          "description": "Notification to utility required but no formal agreement for systems under 600W",
+          "sourceUrl": "https://www.mass.gov/"
+        },
+        {
+          "category": "permit",
+          "required": true,
+          "description": "Permit required from local authority",
+          "sourceUrl": "https://www.mass.gov/"
+        },
+        {
+          "category": "outlet",
+          "required": true,
+          "description": "Must comply with electrical code",
+          "sourceUrl": "https://www.mass.gov/"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Massachusetts Clean Energy Center",
+          "url": "https://www.mass.gov/",
+          "resourceType": "official"
+        }
+      ]
+    },
+    {
+      "code": "co",
+      "name": "Colorado",
+      "abbreviation": "CO",
+      "isLegal": true,
+      "maxWattage": 800,
+      "keyLaw": "Colorado Interconnection Standards",
+      "dataSource": "https://www.colorado.gov/",
+      "details": [
+        {
+          "category": "interconnection",
+          "required": false,
+          "description": "Notification required but no formal agreement",
+          "sourceUrl": "https://www.colorado.gov/"
+        },
+        {
+          "category": "permit",
+          "required": false,
+          "description": "No permit required for systems under 800W",
+          "sourceUrl": "https://www.colorado.gov/"
+        },
+        {
+          "category": "outlet",
+          "required": true,
+          "description": "Standard outlet allowed",
+          "sourceUrl": "https://www.colorado.gov/"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Colorado Public Utilities Commission",
+          "url": "https://www.colorado.gov/",
+          "resourceType": "official"
+        }
+      ]
+    },
+    {
+      "code": "wa",
+      "name": "Washington",
+      "abbreviation": "WA",
+      "isLegal": true,
+      "maxWattage": 600,
+      "keyLaw": "Washington Net Metering Law",
+      "dataSource": "https://www.utc.wa.gov/",
+      "details": [
+        {
+          "category": "interconnection",
+          "required": false,
+          "description": "Notification to utility required but no formal agreement for systems under 600W",
+          "sourceUrl": "https://www.utc.wa.gov/"
+        },
+        {
+          "category": "permit",
+          "required": true,
+          "description": "Permit required from local authority",
+          "sourceUrl": "https://www.utc.wa.gov/"
+        },
+        {
+          "category": "outlet",
+          "required": true,
+          "description": "Must comply with electrical code",
+          "sourceUrl": "https://www.utc.wa.gov/"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Washington Utilities and Transportation Commission",
+          "url": "https://www.utc.wa.gov/",
+          "resourceType": "official"
+        }
+      ]
+    },
+    {
+      "code": "or",
+      "name": "Oregon",
+      "abbreviation": "OR",
+      "isLegal": true,
+      "maxWattage": 600,
+      "keyLaw": "Oregon Net Metering Law",
+      "dataSource": "https://www.oregon.gov/",
+      "details": [
+        {
+          "category": "interconnection",
+          "required": false,
+          "description": "Notification to utility required but no formal agreement for systems under 600W",
+          "sourceUrl": "https://www.oregon.gov/"
+        },
+        {
+          "category": "permit",
+          "required": true,
+          "description": "Permit required",
+          "sourceUrl": "https://www.oregon.gov/"
+        },
+        {
+          "category": "outlet",
+          "required": true,
+          "description": "Must comply with electrical code",
+          "sourceUrl": "https://www.oregon.gov/"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Oregon Public Utility Commission",
+          "url": "https://www.oregon.gov/",
+          "resourceType": "official"
+        }
+      ]
+    },
+    {
+      "code": "az",
+      "name": "Arizona",
+      "abbreviation": "AZ",
+      "isLegal": true,
+      "maxWattage": 600,
+      "keyLaw": "Arizona Interconnection Standards",
+      "dataSource": "https://azcc.gov/",
+      "details": [
+        {
+          "category": "interconnection",
+          "required": false,
+          "description": "Notification to utility required but no formal agreement for systems under 600W",
+          "sourceUrl": "https://azcc.gov/"
+        },
+        {
+          "category": "permit",
+          "required": true,
+          "description": "Permit required",
+          "sourceUrl": "https://azcc.gov/"
+        },
+        {
+          "category": "outlet",
+          "required": true,
+          "description": "Must comply with electrical code",
+          "sourceUrl": "https://azcc.gov/"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Arizona Corporation Commission",
+          "url": "https://azcc.gov/",
+          "resourceType": "official"
+        }
+      ]
+    },
+    {
+      "code": "nv",
+      "name": "Nevada",
+      "abbreviation": "NV",
+      "isLegal": true,
+      "maxWattage": 600,
+      "keyLaw": "Nevada Net Metering Law",
+      "dataSource": "https://puc.nv.gov/",
+      "details": [
+        {
+          "category": "interconnection",
+          "required": false,
+          "description": "Notification to utility required but no formal agreement for systems under 600W",
+          "sourceUrl": "https://puc.nv.gov/"
+        },
+        {
+          "category": "permit",
+          "required": true,
+          "description": "Permit required",
+          "sourceUrl": "https://puc.nv.gov/"
+        },
+        {
+          "category": "outlet",
+          "required": true,
+          "description": "Must comply with electrical code",
+          "sourceUrl": "https://puc.nv.gov/"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Nevada Public Utilities Commission",
+          "url": "https://puc.nv.gov/",
+          "resourceType": "official"
+        }
+      ]
+    },
+    {
+      "code": "il",
+      "name": "Illinois",
+      "abbreviation": "IL",
+      "isLegal": true,
+      "maxWattage": 600,
+      "keyLaw": "Illinois Net Metering Law",
+      "dataSource": "https://www2.illinois.gov/",
+      "details": [
+        {
+          "category": "interconnection",
+          "required": false,
+          "description": "Notification to utility required but no formal agreement for systems under 600W",
+          "sourceUrl": "https://www2.illinois.gov/"
+        },
+        {
+          "category": "permit",
+          "required": true,
+          "description": "Permit required",
+          "sourceUrl": "https://www2.illinois.gov/"
+        },
+        {
+          "category": "outlet",
+          "required": true,
+          "description": "Must comply with electrical code",
+          "sourceUrl": "https://www2.illinois.gov/"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Illinois Commerce Commission",
+          "url": "https://www2.illinois.gov/",
+          "resourceType": "official"
+        }
+      ]
+    },
+    {
+      "code": "mi",
+      "name": "Michigan",
+      "abbreviation": "MI",
+      "isLegal": true,
+      "maxWattage": 600,
+      "keyLaw": "Michigan Net Metering Law",
+      "dataSource": "https://www.michigan.gov/",
+      "details": [
+        {
+          "category": "interconnection",
+          "required": false,
+          "description": "Notification to utility required but no formal agreement for systems under 600W",
+          "sourceUrl": "https://www.michigan.gov/"
+        },
+        {
+          "category": "permit",
+          "required": true,
+          "description": "Permit required",
+          "sourceUrl": "https://www.michigan.gov/"
+        },
+        {
+          "category": "outlet",
+          "required": true,
+          "description": "Must comply with electrical code",
+          "sourceUrl": "https://www.michigan.gov/"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Michigan Public Service Commission",
+          "url": "https://www.michigan.gov/",
+          "resourceType": "official"
+        }
+      ]
+    },
+    {
+      "code": "mn",
+      "name": "Minnesota",
+      "abbreviation": "MN",
+      "isLegal": true,
+      "maxWattage": 600,
+      "keyLaw": "Minnesota Net Metering Law",
+      "dataSource": "https://www.puc.state.mn.us/",
+      "details": [
+        {
+          "category": "interconnection",
+          "required": false,
+          "description": "Notification to utility required but no formal agreement for systems under 600W",
+          "sourceUrl": "https://www.puc.state.mn.us/"
+        },
+        {
+          "category": "permit",
+          "required": true,
+          "description": "Permit required",
+          "sourceUrl": "https://www.puc.state.mn.us/"
+        },
+        {
+          "category": "outlet",
+          "required": true,
+          "description": "Must comply with electrical code",
+          "sourceUrl": "https://www.puc.state.mn.us/"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Minnesota Public Utilities Commission",
+          "url": "https://www.puc.state.mn.us/",
+          "resourceType": "official"
+        }
+      ]
+    },
+    {
+      "code": "mo",
+      "name": "Missouri",
+      "abbreviation": "MO",
+      "isLegal": true,
+      "maxWattage": 600,
+      "keyLaw": "Missouri Net Metering Law",
+      "dataSource": "https://psc.mo.gov/",
+      "details": [
+        {
+          "category": "interconnection",
+          "required": false,
+          "description": "Notification to utility required but no formal agreement for systems under 600W",
+          "sourceUrl": "https://psc.mo.gov/"
+        },
+        {
+          "category": "permit",
+          "required": true,
+          "description": "Permit required",
+          "sourceUrl": "https://psc.mo.gov/"
+        },
+        {
+          "category": "outlet",
+          "required": true,
+          "description": "Must comply with electrical code",
+          "sourceUrl": "https://psc.mo.gov/"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Missouri Public Service Commission",
+          "url": "https://psc.mo.gov/",
+          "resourceType": "official"
+        }
+      ]
+    },
+    {
+      "code": "nc",
+      "name": "North Carolina",
+      "abbreviation": "NC",
+      "isLegal": true,
+      "maxWattage": 600,
+      "keyLaw": "North Carolina Net Metering Law",
+      "dataSource": "https://www.ncuc.gov/",
+      "details": [
+        {
+          "category": "interconnection",
+          "required": false,
+          "description": "Notification to utility required but no formal agreement for systems under 600W",
+          "sourceUrl": "https://www.ncuc.gov/"
+        },
+        {
+          "category": "permit",
+          "required": true,
+          "description": "Permit required",
+          "sourceUrl": "https://www.ncuc.gov/"
+        },
+        {
+          "category": "outlet",
+          "required": true,
+          "description": "Must comply with electrical code",
+          "sourceUrl": "https://www.ncuc.gov/"
+        }
+      ],
+      "resources": [
+        {
+          "title": "North Carolina Utilities Commission",
+          "url": "https://www.ncuc.gov/",
+          "resourceType": "official"
+        }
+      ]
+    },
+    {
+      "code": "oh",
+      "name": "Ohio",
+      "abbreviation": "OH",
+      "isLegal": true,
+      "maxWattage": 600,
+      "keyLaw": "Ohio Net Metering Law",
+      "dataSource": "https://www.puco.ohio.gov/",
+      "details": [
+        {
+          "category": "interconnection",
+          "required": false,
+          "description": "Notification to utility required but no formal agreement for systems under 600W",
+          "sourceUrl": "https://www.puco.ohio.gov/"
+        },
+        {
+          "category": "permit",
+          "required": true,
+          "description": "Permit required",
+          "sourceUrl": "https://www.puco.ohio.gov/"
+        },
+        {
+          "category": "outlet",
+          "required": true,
+          "description": "Must comply with electrical code",
+          "sourceUrl": "https://www.puco.ohio.gov/"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Public Utilities Commission of Ohio",
+          "url": "https://www.puco.ohio.gov/",
+          "resourceType": "official"
+        }
+      ]
+    },
+    {
+      "code": "pa",
+      "name": "Pennsylvania",
+      "abbreviation": "PA",
+      "isLegal": true,
+      "maxWattage": 600,
+      "keyLaw": "Pennsylvania Net Metering Law",
+      "dataSource": "https://www.puc.pa.gov/",
+      "details": [
+        {
+          "category": "interconnection",
+          "required": false,
+          "description": "Notification to utility required but no formal agreement for systems under 600W",
+          "sourceUrl": "https://www.puc.pa.gov/"
+        },
+        {
+          "category": "permit",
+          "required": true,
+          "description": "Permit required",
+          "sourceUrl": "https://www.puc.pa.gov/"
+        },
+        {
+          "category": "outlet",
+          "required": true,
+          "description": "Must comply with electrical code",
+          "sourceUrl": "https://www.puc.pa.gov/"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Pennsylvania Public Utility Commission",
+          "url": "https://www.puc.pa.gov/",
+          "resourceType": "official"
+        }
+      ]
+    },
+    {
+      "code": "va",
+      "name": "Virginia",
+      "abbreviation": "VA",
+      "isLegal": true,
+      "maxWattage": 600,
+      "keyLaw": "Virginia Net Metering Law",
+      "dataSource": "https://www.scc.virginia.gov/",
+      "details": [
+        {
+          "category": "interconnection",
+          "required": false,
+          "description": "Notification to utility required but no formal agreement for systems under 600W",
+          "sourceUrl": "https://www.scc.virginia.gov/"
+        },
+        {
+          "category": "permit",
+          "required": true,
+          "description": "Permit required",
+          "sourceUrl": "https://www.scc.virginia.gov/"
+        },
+        {
+          "category": "outlet",
+          "required": true,
+          "description": "Must comply with electrical code",
+          "sourceUrl": "https://www.scc.virginia.gov/"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Virginia State Corporation Commission",
+          "url": "https://www.scc.virginia.gov/",
+          "resourceType": "official"
+        }
+      ]
+    },
+    {
+      "code": "wi",
+      "name": "Wisconsin",
+      "abbreviation": "WI",
+      "isLegal": true,
+      "maxWattage": 600,
+      "keyLaw": "Wisconsin Net Metering Law",
+      "dataSource": "https://psc.wi.gov/",
+      "details": [
+        {
+          "category": "interconnection",
+          "required": false,
+          "description": "Notification to utility required but no formal agreement for systems under 600W",
+          "sourceUrl": "https://psc.wi.gov/"
+        },
+        {
+          "category": "permit",
+          "required": true,
+          "description": "Permit required",
+          "sourceUrl": "https://psc.wi.gov/"
+        },
+        {
+          "category": "outlet",
+          "required": true,
+          "description": "Must comply with electrical code",
+          "sourceUrl": "https://psc.wi.gov/"
+        }
+      ],
+      "resources": [
+        {
+          "title": "Wisconsin Public Service Commission",
+          "url": "https://psc.wi.gov/",
+          "resourceType": "official"
+        }
+      ]
+    },
+    {
+      "code": "dc",
+      "name": "District of Columbia",
+      "abbreviation": "DC",
+      "isLegal": true,
+      "maxWattage": 600,
+      "keyLaw": "DC Net Metering Law",
+      "dataSource": "https://doee.dc.gov/",
+      "details": [
+        {
+          "category": "interconnection",
+          "required": false,
+          "description": "Notification to utility required but no formal agreement for systems under 600W",
+          "sourceUrl": "https://doee.dc.gov/"
+        },
+        {
+          "category": "permit",
+          "required": true,
+          "description": "Permit required",
+          "sourceUrl": "https://doee.dc.gov/"
+        },
+        {
+          "category": "outlet",
+          "required": true,
+          "description": "Must comply with electrical code",
+          "sourceUrl": "https://doee.dc.gov/"
+        }
+      ],
+      "resources": [
+        {
+          "title": "DC Department of Energy and Environment",
+          "url": "https://doee.dc.gov/",
+          "resourceType": "official"
+        }
+      ]
+    }
+  ]
+}

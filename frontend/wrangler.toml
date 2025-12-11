@@ -1,0 +1,15 @@
+name = "balcony-solar-checker"
+type = "javascript"
+account_id = ""
+workers_dev = true
+route = ""
+zone_id = ""
+
+[env.production]
+name = "balcony-solar-checker-prod"
+route = "checker.solarcurrents.com/*"
+zone_id = ""
+
+[build]
+command = "npm run build"
+cwd = "./"
