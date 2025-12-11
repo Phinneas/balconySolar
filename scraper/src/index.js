@@ -14,12 +14,15 @@ const TABLE_IDS = {
   updateLog: 'tblNAUNfKxO4Wi0SJ1A',
 };
 
-async function invalidateAPICache(cacheInvalidateUrl) {
+async function invalidateAPICache(cacheInvalidateUrl, token) {
   try {
     const response = await fetch(cacheInvalidateUrl, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ pattern: 'state-*' }),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({ pattern: 'state-' }),
     });
 
     if (!response.ok) {
@@ -254,7 +257,7 @@ async function handleScheduled(event, env) {
 
     // Invalidate API cache
     console.log(`[${jobId}] Invalidating API cache...`);
-    const cacheInvalidated = await invalidateAPICache(env.API_CACHE_INVALIDATE_URL);
+    const cacheInvalidated = await invalidateAPICache(env.API_CACHE_INVALIDATE_URL, env.CACHE_INVALIDATE_TOKEN);
 
     // Calculate execution time
     const executionTime = Date.now() - startTime;

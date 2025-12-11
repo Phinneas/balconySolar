@@ -15,6 +15,7 @@ import {
 const TEABLE_API_URL = 'https://app.teable.ai/api';
 const TEABLE_BASE_ID = 'bseTnc7nTi3FYus3yIk';
 const TEABLE_API_TOKEN = 'teable_accQGmhU1fVBigSZL4a_gsnFqNXarx/RjkgVZXnieOhSeMkSmyugBV0N9Mekvfk=';
+const CACHE_INVALIDATE_TOKEN = 'cache_invalidate_token_secret_key_12345';
 
 const TABLE_IDS = {
   states: 'tbl9JsNibYgkgi7iEVW',
@@ -209,8 +210,19 @@ async function handleRequest(request) {
       });
     }
 
-    // POST /api/cache-invalidate - Invalidate cache (internal)
+    // POST /api/cache-invalidate - Invalidate cache (internal, requires authentication)
     if (path === '/api/cache-invalidate' && request.method === 'POST') {
+      // Verify authentication token
+      const authHeader = request.headers.get('Authorization');
+      const token = authHeader ? authHeader.replace('Bearer ', '') : null;
+      
+      if (!token || token !== CACHE_INVALIDATE_TOKEN) {
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json', ...corsHeaders },
+        });
+      }
+
       const body = await request.json();
       const pattern = body.pattern || null;
       cache.invalidate(pattern);
@@ -218,6 +230,7 @@ async function handleRequest(request) {
       return new Response(JSON.stringify({ 
         status: 'cache invalidated',
         pattern: pattern,
+        timestamp: new Date().toISOString(),
       }), {
         headers: { 'Content-Type': 'application/json', ...corsHeaders },
       });

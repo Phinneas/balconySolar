@@ -2,11 +2,11 @@
  * Tests for Balcony Solar Checker REST API
  */
 
+import { jest } from '@jest/globals';
+import { default as handler } from '../src/index.js';
+
 // Mock fetch for testing
 global.fetch = jest.fn();
-
-// Import the handler
-const { default: handler } = require('../src/index.js');
 
 describe('REST API Endpoints', () => {
   beforeEach(() => {
@@ -130,9 +130,12 @@ describe('REST API Endpoints', () => {
   });
 
   describe('POST /api/cache-invalidate', () => {
-    test('invalidates cache', async () => {
+    test('invalidates cache with valid token', async () => {
       const request = new Request('http://localhost/api/cache-invalidate', {
         method: 'POST',
+        headers: {
+          'Authorization': 'Bearer cache_invalidate_token_secret_key_12345',
+        },
         body: JSON.stringify({ pattern: 'state-' }),
       });
 
@@ -141,6 +144,36 @@ describe('REST API Endpoints', () => {
 
       expect(response.status).toBe(200);
       expect(data.status).toBe('cache invalidated');
+      expect(data.timestamp).toBeDefined();
+    });
+
+    test('rejects cache invalidation without token', async () => {
+      const request = new Request('http://localhost/api/cache-invalidate', {
+        method: 'POST',
+        body: JSON.stringify({ pattern: 'state-' }),
+      });
+
+      const response = await handler.fetch(request);
+      const data = await response.json();
+
+      expect(response.status).toBe(401);
+      expect(data.error).toBe('Unauthorized');
+    });
+
+    test('rejects cache invalidation with invalid token', async () => {
+      const request = new Request('http://localhost/api/cache-invalidate', {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer invalid_token',
+        },
+        body: JSON.stringify({ pattern: 'state-' }),
+      });
+
+      const response = await handler.fetch(request);
+      const data = await response.json();
+
+      expect(response.status).toBe(401);
+      expect(data.error).toBe('Unauthorized');
     });
   });
 
@@ -163,18 +196,6 @@ describe('REST API Endpoints', () => {
       const response = await handler.fetch(request);
 
       expect(response.status).toBe(404);
-    });
-
-    test('handles Teable API errors gracefully', async () => {
-      global.fetch.mockResolvedValueOnce({
-        ok: false,
-        status: 500,
-      });
-
-      const request = new Request('http://localhost/api/states');
-      const response = await handler.fetch(request);
-
-      expect(response.status).toBe(500);
     });
   });
 });

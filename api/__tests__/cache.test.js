@@ -176,4 +176,52 @@ describe('CacheManager', () => {
       expect(time2).toBeLessThanOrEqual(time1 + 1); // Allow 1ms margin
     });
   });
+
+  describe('Cache invalidation and data freshness', () => {
+    test('cache invalidation allows new data to be fetched within 1 minute', async () => {
+      // Set initial data
+      const oldData = { name: 'California', maxWattage: 800, lastUpdated: '2024-01-01' };
+      cache.set('state-ca', oldData);
+      
+      // Verify old data is cached
+      expect(cache.get('state-ca')).toEqual(oldData);
+      
+      // Invalidate cache
+      cache.invalidate('state-ca');
+      
+      // Verify cache is cleared
+      expect(cache.get('state-ca')).toBeNull();
+      
+      // Set new data (simulating fresh fetch from Teable)
+      const newData = { name: 'California', maxWattage: 900, lastUpdated: '2024-12-09' };
+      cache.set('state-ca', newData);
+      
+      // Verify new data is now cached
+      expect(cache.get('state-ca')).toEqual(newData);
+      expect(cache.get('state-ca').maxWattage).toBe(900);
+    });
+
+    test('pattern-based invalidation clears specific cache entries', () => {
+      // Set multiple state caches
+      cache.set('state-ca', { name: 'California' });
+      cache.set('state-ny', { name: 'New York' });
+      cache.set('all-states', []);
+      
+      // Invalidate only state-specific caches
+      cache.invalidate('state-');
+      
+      // Verify state caches are cleared
+      expect(cache.get('state-ca')).toBeNull();
+      expect(cache.get('state-ny')).toBeNull();
+      
+      // Verify all-states cache remains
+      expect(cache.get('all-states')).toEqual([]);
+      
+      // Set new data for one state
+      cache.set('state-ca', { name: 'California', maxWattage: 900 });
+      
+      // Verify new data is available
+      expect(cache.get('state-ca')).toEqual({ name: 'California', maxWattage: 900 });
+    });
+  });
 });

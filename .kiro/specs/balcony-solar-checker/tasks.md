@@ -230,7 +230,7 @@ on# Implementation Plan: Balcony Solar Legal State Checker
   - Set up monitoring/alerting for cron failures
   - _Requirements: 5.1, 5.2_
 
-- [ ] 20. Implement cache invalidation endpoint in Worker
+- [x] 20. Implement cache invalidation endpoint in Worker
   - Create internal endpoint for cache invalidation (e.g., /api/cache-invalidate)
   - Secure endpoint with authentication token
   - Trigger cache invalidation when Teable is updated
