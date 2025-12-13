@@ -237,7 +237,7 @@ on# Implementation Plan: Balcony Solar Legal State Checker
   - Verify API returns updated data within 1 minute
   - _Requirements: 5.2_
 
-- [ ] 21. Set up monitoring and alerting
+- [x] 21. Set up monitoring and alerting
   - Monitor API endpoint uptime
   - Alert on cron Worker failures
   - Track API response times
@@ -245,21 +245,21 @@ on# Implementation Plan: Balcony Solar Legal State Checker
   - Set up Cloudflare Analytics for Worker performance
   - _Requirements: 5.1, 5.2_
 
-- [ ] 22. Integrate checker with SolarCurrents
+- [x] 22. Integrate checker with SolarCurrents
   - Add prominent link/CTA to checker on SolarCurrents homepage
   - Create dedicated landing page for checker
   - Add internal links to related SolarCurrents content
   - Add newsletter subscription CTA after state lookup
   - _Requirements: 8.1, 8.3, 8.4_
 
-- [ ] 22.1 Write unit tests for SolarCurrents integration
+- [x] 22.1 Write unit tests for SolarCurrents integration
   - Test link presence on homepage
   - Test landing page rendering
   - Test internal link functionality
   - Test CTA display
   - _Requirements: 8.1, 8.3, 8.4_
 
-- [ ] 23. Create documentation
+- [x] 23. Create documentation
   - Write API documentation with endpoint examples
   - Document Airtable base structure and field definitions
   - Create n8n workflow setup guide
@@ -267,12 +267,12 @@ on# Implementation Plan: Balcony Solar Legal State Checker
   - Create maintenance guide for updating state data
   - _Requirements: 7.1, 7.2_
 
-- [ ] 24. Checkpoint - Ensure all integration tests pass
+- [x] 24. Checkpoint - Ensure all integration tests pass
   - Ensure all tests pass, ask the user if questions arise.
 
 ## Phase 4: Testing & Validation
 
-- [ ] 25. Write comprehensive property-based tests
+- [x] 25. Write comprehensive property-based tests
   - **Property 1: State Data Completeness** - Verify all required fields present
   - **Property 2: Wattage Limit Validity** - Verify wattage is 300-2000W
   - **Property 3: Legal Status Consistency** - Verify legal status matches details
@@ -285,7 +285,7 @@ on# Implementation Plan: Balcony Solar Legal State Checker
   - **Property 10: Iframe Embedding Isolation** - Verify iframe independence
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.3, 4.1, 4.2, 4.3, 5.1, 5.2, 5.4, 6.1, 6.2, 6.3, 7.1_
 
-- [ ] 26. Write comprehensive unit tests
+- [x] 26. Write comprehensive unit tests
   - Test all components (StateSelector, StateResults, DetailAccordion)
   - Test API client and error handling
   - Test URL parameter parsing and generation
@@ -295,7 +295,7 @@ on# Implementation Plan: Balcony Solar Legal State Checker
   - Test error handling and fallbacks
   - _Requirements: 1.1, 1.2, 1.3, 1.4, 1.5, 2.1, 2.2, 2.3, 2.4, 2.5, 3.1, 3.2, 4.1, 4.2, 4.3, 4.4, 5.5, 6.1, 6.2, 6.3, 7.4_
 
-- [ ] 27. Perform end-to-end testing
+- [x] 27. Perform end-to-end testing
   - Test complete user flow: select state → view results → share URL → print
   - Test on multiple browsers (Chrome, Firefox, Safari, Edge)
   - Test on multiple devices (desktop, tablet, mobile)

@@ -8,7 +8,7 @@
  * workflow has run recently).
  */
 
-const fc = require('fast-check');
+import fc from 'fast-check';
 
 /**
  * Generates a valid state code (2-letter lowercase)

@@ -5,4 +5,5 @@ module.exports = {
     'src/**/*.js',
     '!src/**/*.test.js',
   ],
+  transform: {},
 };

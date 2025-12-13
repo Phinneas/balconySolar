@@ -3,7 +3,7 @@
  * Tests for the scheduled scraper job execution, error handling, and monitoring
  */
 
-const fc = require('fast-check');
+import fc from 'fast-check';
 
 /**
  * Generates a valid cron expression

@@ -179,6 +179,7 @@ function App() {
     <div className="app">
       <header>
         <h1>Balcony Solar Legal State Checker</h1>
+        <p className="tagline">Find out if balcony solar is legal in your state</p>
         {isOffline && (
           <div className="offline-indicator" data-testid="offline-indicator">
             📡 You are offline - using cached data
@@ -224,6 +225,27 @@ function App() {
               {selectedState.keyLaw && <p><strong>Key Law:</strong> {selectedState.keyLaw}</p>}
               {!selectedState.maxWattage && <p className="missing-data">Wattage information unavailable</p>}
             </div>
+
+            {selectedState.resources && selectedState.resources.length > 0 && (
+              <div className="resources-section" data-testid="resources-section">
+                <h3>Official Resources</h3>
+                <ul className="resources-list">
+                  {selectedState.resources.map((resource, index) => (
+                    <li key={index}>
+                      <a 
+                        href={resource.url} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        data-testid={`resource-link-${index}`}
+                      >
+                        {resource.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
             <div className="share-section">
               <button 
                 onClick={copyToClipboard}
@@ -232,6 +254,56 @@ function App() {
               >
                 📋 Copy Shareable Link
               </button>
+            </div>
+
+            <div className="newsletter-cta" data-testid="newsletter-cta">
+              <h3>Stay Updated on Solar Regulations</h3>
+              <p>Get the latest balcony solar news and regulatory updates delivered to your inbox.</p>
+              <a 
+                href="https://www.solarcurrents.com/newsletter" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="newsletter-button"
+                data-testid="newsletter-link"
+              >
+                Subscribe to SolarCurrents Newsletter
+              </a>
+            </div>
+
+            <div className="related-content" data-testid="related-content">
+              <h3>Related SolarCurrents Content</h3>
+              <ul className="related-links">
+                <li>
+                  <a 
+                    href="https://www.solarcurrents.com/balcony-solar-guide" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    data-testid="related-guide-link"
+                  >
+                    Complete Balcony Solar Installation Guide
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="https://www.solarcurrents.com/solar-comparison" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    data-testid="related-comparison-link"
+                  >
+                    Solar System Comparison Tool
+                  </a>
+                </li>
+                <li>
+                  <a 
+                    href="https://www.solarcurrents.com/solar-companies" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    data-testid="related-companies-link"
+                  >
+                    Find Solar Companies Near You
+                  </a>
+                </li>
+              </ul>
             </div>
           </div>
         )}
