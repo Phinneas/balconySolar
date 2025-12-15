@@ -435,4 +435,145 @@ describe('SolarCurrents Integration', () => {
       })
     })
   })
+
+  describe('Internal Links Verification', () => {
+    it('verifies all internal SolarCurrents links are present and valid', async () => {
+      const mockState = {
+        code: 'ca',
+        name: 'California',
+        abbreviation: 'CA',
+        isLegal: true,
+        maxWattage: 800,
+        keyLaw: 'SB 709',
+        details: {
+          interconnection: { required: false, description: 'Test' },
+          permit: { required: false, description: 'Test' },
+          outlet: { required: true, description: 'Standard outlet allowed' },
+          special_notes: { required: false, description: 'Test' }
+        },
+        resources: []
+      }
+
+      global.fetch.mockImplementation((url) => {
+        if (url.includes('/api/states/ca')) {
+          return Promise.resolve({
+            ok: true,
+            json: async () => ({ state: mockState })
+          })
+        }
+        if (url.includes('/api/states')) {
+          return Promise.resolve({
+            ok: true,
+            json: async () => ({ states: [{ code: 'ca', name: 'California' }] })
+          })
+        }
+        return Promise.reject(new Error('Unexpected URL'))
+      })
+
+      render(<App />)
+
+      // Wait for states to load
+      await waitFor(() => {
+        expect(screen.getByRole('option', { name: 'California' })).toBeInTheDocument()
+      })
+
+      // Select California
+      const select = screen.getByRole('combobox')
+      await userEvent.selectOptions(select, 'ca')
+
+      // Wait for state results to appear
+      await waitFor(() => {
+        expect(screen.getByRole('heading', { level: 2, name: 'California' })).toBeInTheDocument()
+      })
+
+      // Verify newsletter link
+      const newsletterLink = screen.getByTestId('newsletter-link')
+      expect(newsletterLink).toBeInTheDocument()
+      expect(newsletterLink.href).toBe('https://www.solarcurrents.com/newsletter')
+      expect(newsletterLink.target).toBe('_blank')
+      expect(newsletterLink.rel).toContain('noopener')
+
+      // Verify related content links
+      const guideLink = screen.getByTestId('related-guide-link')
+      expect(guideLink).toBeInTheDocument()
+      expect(guideLink.href).toBe('https://www.solarcurrents.com/balcony-solar-guide')
+      expect(guideLink.target).toBe('_blank')
+
+      const comparisonLink = screen.getByTestId('related-comparison-link')
+      expect(comparisonLink).toBeInTheDocument()
+      expect(comparisonLink.href).toBe('https://www.solarcurrents.com/solar-comparison')
+      expect(comparisonLink.target).toBe('_blank')
+
+      const companiesLink = screen.getByTestId('related-companies-link')
+      expect(companiesLink).toBeInTheDocument()
+      expect(companiesLink.href).toBe('https://www.solarcurrents.com/solar-companies')
+      expect(companiesLink.target).toBe('_blank')
+    })
+
+    it('ensures all links open in new tabs with security attributes', async () => {
+      const mockState = {
+        code: 'ny',
+        name: 'New York',
+        abbreviation: 'NY',
+        isLegal: true,
+        maxWattage: 1000,
+        keyLaw: 'NY Energy Law',
+        details: {
+          interconnection: { required: true, description: 'Test' },
+          permit: { required: false, description: 'Test' },
+          outlet: { required: false, description: 'Test' },
+          special_notes: { required: false, description: 'Test' }
+        },
+        resources: [
+          {
+            title: 'New York Public Service Commission',
+            url: 'https://www.dps.ny.gov/',
+            resourceType: 'official'
+          }
+        ]
+      }
+
+      global.fetch.mockImplementation((url) => {
+        if (url.includes('/api/states/ny')) {
+          return Promise.resolve({
+            ok: true,
+            json: async () => ({ state: mockState })
+          })
+        }
+        if (url.includes('/api/states')) {
+          return Promise.resolve({
+            ok: true,
+            json: async () => ({ states: [{ code: 'ny', name: 'New York' }] })
+          })
+        }
+        return Promise.reject(new Error('Unexpected URL'))
+      })
+
+      render(<App />)
+
+      // Wait for states to load
+      await waitFor(() => {
+        expect(screen.getByRole('option', { name: 'New York' })).toBeInTheDocument()
+      })
+
+      // Select New York
+      const select = screen.getByRole('combobox')
+      await userEvent.selectOptions(select, 'ny')
+
+      // Wait for state results to appear
+      await waitFor(() => {
+        expect(screen.getByRole('heading', { level: 2, name: 'New York' })).toBeInTheDocument()
+      })
+
+      // Verify all external links have proper security attributes
+      const allLinks = screen.getAllByRole('link')
+      allLinks.forEach(link => {
+        if (link.href.includes('solarcurrents.com') || link.href.includes('dps.ny.gov')) {
+          expect(link.target).toBe('_blank')
+          expect(link.rel).toContain('noopener')
+          expect(link.rel).toContain('noreferrer')
+        }
+      })
+    })
+  })
 })
