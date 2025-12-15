@@ -1,0 +1,13 @@
+name = "balcony-solar-checker"
+type = "javascript"
+account_id = ""
+workers_dev = true
+
+[build]
+command = "cd frontend && npm run build"
+cwd = "./"
+
+[env.production]
+name = "balcony-solar-checker-prod"
+route = "checker.solarcurrents.com/*"
+zone_id = ""
