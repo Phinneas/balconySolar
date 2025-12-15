@@ -4,6 +4,7 @@
  */
 
 import CacheManager from './cache.js';
+import AnalyticsService from './analytics.js';
 import { 
   APIError, 
   NotFoundError, 
@@ -27,6 +28,12 @@ const TABLE_IDS = {
 // Cache manager with 24-hour TTL
 const cache = new CacheManager(24 * 60 * 60 * 1000);
 const CACHE_TTL_SECONDS = 24 * 60 * 60;
+
+// Analytics service
+const analytics = new AnalyticsService({
+  maxEventsInMemory: 10000,
+  maxFeedbackInMemory: 1000,
+});
 
 async function fetchFromTeable(tableId, query = '') {
   const url = `${TEABLE_API_URL}/table/${tableId}/record${query}`;
@@ -232,6 +239,126 @@ async function handleRequest(request) {
         pattern: pattern,
         timestamp: new Date().toISOString(),
       }), {
+        headers: { 'Content-Type': 'application/json', ...corsHeaders },
+      });
+    }
+
+    // POST /api/analytics/events - Record analytics events
+    if (path === '/api/analytics/events' && request.method === 'POST') {
+      try {
+        const body = await request.json();
+        const { sessionId, events } = body;
+
+        if (!sessionId || !Array.isArray(events)) {
+          return new Response(JSON.stringify({ error: 'Invalid request body' }), {
+            status: 400,
+            headers: { 'Content-Type': 'application/json', ...corsHeaders },
+          });
+        }
+
+        analytics.recordEvents(sessionId, events);
+
+        return new Response(JSON.stringify({ 
+          status: 'events recorded',
+          count: events.length,
+          timestamp: new Date().toISOString(),
+        }), {
+          headers: { 'Content-Type': 'application/json', ...corsHeaders },
+        });
+      } catch (error) {
+        return new Response(JSON.stringify({ error: 'Failed to record events' }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json', ...corsHeaders },
+        });
+      }
+    }
+
+    // POST /api/feedback - Submit user feedback
+    if (path === '/api/feedback' && request.method === 'POST') {
+      try {
+        const body = await request.json();
+        
+        analytics.recordFeedback({
+          type: body.type || 'general',
+          rating: body.rating || null,
+          message: body.message || '',
+          stateCode: body.stateCode || null,
+          email: body.email || null,
+          timestamp: body.timestamp || new Date().toISOString(),
+          userAgent: body.userAgent || '',
+          url: body.url || '',
+        });
+
+        return new Response(JSON.stringify({ 
+          status: 'feedback recorded',
+          timestamp: new Date().toISOString(),
+        }), {
+          headers: { 'Content-Type': 'application/json', ...corsHeaders },
+        });
+      } catch (error) {
+        return new Response(JSON.stringify({ error: 'Failed to record feedback' }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json', ...corsHeaders },
+        });
+      }
+    }
+
+    // GET /api/analytics/summary - Get analytics summary (internal)
+    if (path === '/api/analytics/summary' && request.method === 'GET') {
+      const authHeader = request.headers.get('Authorization');
+      const token = authHeader ? authHeader.replace('Bearer ', '') : null;
+      
+      if (!token || token !== CACHE_INVALIDATE_TOKEN) {
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json', ...corsHeaders },
+        });
+      }
+
+      const windowMs = parseInt(url.searchParams.get('window') || '86400000'); // Default 24 hours
+      const summary = analytics.getAnalyticsSummary(windowMs);
+
+      return new Response(JSON.stringify(summary), {
+        headers: { 'Content-Type': 'application/json', ...corsHeaders },
+      });
+    }
+
+    // GET /api/analytics/engagement - Get engagement metrics (internal)
+    if (path === '/api/analytics/engagement' && request.method === 'GET') {
+      const authHeader = request.headers.get('Authorization');
+      const token = authHeader ? authHeader.replace('Bearer ', '') : null;
+      
+      if (!token || token !== CACHE_INVALIDATE_TOKEN) {
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json', ...corsHeaders },
+        });
+      }
+
+      const windowMs = parseInt(url.searchParams.get('window') || '86400000');
+      const metrics = analytics.getEngagementMetrics(windowMs);
+
+      return new Response(JSON.stringify(metrics), {
+        headers: { 'Content-Type': 'application/json', ...corsHeaders },
+      });
+    }
+
+    // GET /api/analytics/feedback - Get feedback summary (internal)
+    if (path === '/api/analytics/feedback' && request.method === 'GET') {
+      const authHeader = request.headers.get('Authorization');
+      const token = authHeader ? authHeader.replace('Bearer ', '') : null;
+      
+      if (!token || token !== CACHE_INVALIDATE_TOKEN) {
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+          status: 401,
+          headers: { 'Content-Type': 'application/json', ...corsHeaders },
+        });
+      }
+
+      const windowMs = parseInt(url.searchParams.get('window') || '86400000');
+      const summary = analytics.getFeedbackSummary(windowMs);
+
+      return new Response(JSON.stringify(summary), {
         headers: { 'Content-Type': 'application/json', ...corsHeaders },
       });
     }
