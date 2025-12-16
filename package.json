@@ -5,7 +5,8 @@
   "main": "populate-teable.js",
   "scripts": {
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "build": "cd frontend && npm install --legacy-peer-deps && npm run build"
   },
   "keywords": [],
   "author": "",

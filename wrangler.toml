@@ -1,13 +1,7 @@
-name = "balcony-solar-checker"
-type = "javascript"
-account_id = ""
-workers_dev = true
-
-[build]
-command = "cd frontend && npm run build"
-cwd = "./"
+# Cloudflare Pages Configuration
+# Build command runs in the frontend directory
+pages_build_output_dir = "./frontend/dist"
 
 [env.production]
+# Production environment settings (if needed)
 name = "balcony-solar-checker-prod"
-route = "checker.solarcurrents.com/*"
-zone_id = ""
