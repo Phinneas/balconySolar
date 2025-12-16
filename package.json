@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
-    "build": "npm install --legacy-peer-deps && npm run build:frontend && npm run build:api && npm run build:scraper",
+    "build": "cd frontend && npm install --legacy-peer-deps && npm run build",
     "build:frontend": "cd frontend && npm install --legacy-peer-deps && npm run build",
     "build:api": "cd api && npm install && npm run build",
     "build:scraper": "cd scraper && npm install && npm run build"
