@@ -1,10 +1,4 @@
-name = "balcony-solar-checker"
+# Cloudflare Pages Configuration
+# Build command is configured in the Cloudflare Pages dashboard
 compatibility_date = "2024-12-09"
 pages_build_output_dir = "frontend/dist"
-
-[build]
-command = "cd frontend && npm install --legacy-peer-deps && npm run build"
-cwd = "./"
-
-[env.production]
-name = "balcony-solar-checker-prod"

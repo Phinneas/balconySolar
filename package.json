@@ -6,10 +6,7 @@
   "scripts": {
     "test": "jest",
     "test:watch": "jest --watch",
-    "build": "cd frontend && npm install --legacy-peer-deps && npm run build",
-    "build:frontend": "cd frontend && npm install --legacy-peer-deps && npm run build",
-    "build:api": "cd api && npm install && npm run build",
-    "build:scraper": "cd scraper && npm install && npm run build"
+    "build": "cd frontend && npm install --legacy-peer-deps && npm run build"
   },
   "keywords": [],
   "author": "",
