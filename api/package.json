@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",
+    "build": "wrangler build",
     "deploy": "wrangler deploy",
     "deploy:staging": "wrangler deploy --env staging",
     "test": "NODE_OPTIONS=--experimental-vm-modules jest",

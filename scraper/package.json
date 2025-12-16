@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "wrangler dev",
+    "build": "wrangler build",
     "deploy": "wrangler deploy",
     "deploy:staging": "wrangler deploy --env staging",
     "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
