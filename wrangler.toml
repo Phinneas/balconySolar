@@ -1,7 +1,17 @@
-# Cloudflare Pages Configuration
-# Build command runs in the frontend directory
-pages_build_output_dir = "./frontend/dist"
+name = "balcony-solar-checker"
+type = "javascript"
+main = "frontend/dist"
+compatibility_date = "2024-12-09"
+
+[build]
+command = "npm run build:frontend"
+cwd = "./"
+
+[build.upload]
+format = "service-worker"
 
 [env.production]
-# Production environment settings (if needed)
 name = "balcony-solar-checker-prod"
+routes = [
+  { pattern = "checker.solarcurrents.com/*", zone_name = "solarcurrents.com" }
+]
