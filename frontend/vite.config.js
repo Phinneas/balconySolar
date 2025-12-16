@@ -7,11 +7,15 @@ export default defineConfig({
   plugins: [
     react(),
     {
-      name: 'copy-redirects',
+      name: 'copy-files',
       writeBundle() {
         copyFileSync(
           resolve(__dirname, '_redirects'),
           resolve(__dirname, 'dist', '_redirects')
+        )
+        copyFileSync(
+          resolve(__dirname, '_headers'),
+          resolve(__dirname, 'dist', '_headers')
         )
       }
     }
