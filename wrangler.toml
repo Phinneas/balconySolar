@@ -1,4 +1,4 @@
 # Cloudflare Pages Configuration
-# Build command is configured in the Cloudflare Pages dashboard
+name = "balcony-solar-checker"
 compatibility_date = "2024-12-09"
 pages_build_output_dir = "frontend/dist"
