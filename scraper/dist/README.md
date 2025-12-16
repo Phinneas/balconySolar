@@ -1,0 +1,1 @@
+This folder contains the built output assets for the worker "balcony-solar-scraper" generated at 2025-12-16T00:41:03.335Z.
