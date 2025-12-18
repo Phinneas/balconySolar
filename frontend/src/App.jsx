@@ -103,6 +103,8 @@ function App() {
       const data = await response.json()
       
       const statesData = data.states || []
+      console.log('Fetched states count:', statesData.length)
+      console.log('Unique states count:', [...new Set(statesData.map(s => s.code))].length)
       setStates(statesData)
       setCachedData(prev => ({ ...prev, 'all-states': statesData }))
       setLastUpdated(prev => ({ ...prev, 'all-states': new Date().toISOString() }))
@@ -216,6 +218,9 @@ function App() {
           >
             <option value="">-- Choose a state --</option>
             {states
+              .filter((state, index, self) => 
+                index === self.findIndex(s => s.code === state.code)
+              )
               .sort((a, b) => a.name.localeCompare(b.name))
               .map(state => (
                 <option key={state.code} value={state.code}>
