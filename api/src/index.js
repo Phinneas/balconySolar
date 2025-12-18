@@ -35,6 +35,18 @@ const analytics = new AnalyticsService({
   maxFeedbackInMemory: 1000,
 });
 
+function buildTeableFilter(fieldId, value) {
+  const filter = {
+    conjunction: 'and',
+    filterSet: [{
+      fieldId: fieldId,
+      operator: 'is',
+      value: value
+    }]
+  };
+  return `?filter=${encodeURIComponent(JSON.stringify(filter))}`;
+}
+
 async function fetchFromTeable(tableId, query = '') {
   const url = `${TEABLE_API_URL}/table/${tableId}/record${query}`;
   
@@ -80,15 +92,17 @@ async function getAllStates() {
   }
 
   const response = await fetchFromTeable(TABLE_IDS.states);
-  const states = response.records.map(record => ({
-    code: record.fields.code,
-    name: record.fields.name,
-    abbreviation: record.fields.abbreviation,
-    isLegal: record.fields.isLegal,
-    maxWattage: record.fields.maxWattage,
-    keyLaw: record.fields.keyLaw,
-    lastUpdated: record.fields.lastUpdated,
-  }));
+  const states = response.records
+    .filter(record => record.fields.code && record.fields.name) // Filter out empty/incomplete records
+    .map(record => ({
+      code: record.fields.code,
+      name: record.fields.name,
+      abbreviation: record.fields.abbreviation,
+      isLegal: record.fields.isLegal,
+      maxWattage: record.fields.maxWattage,
+      keyLaw: record.fields.keyLaw,
+      lastUpdated: record.fields.lastUpdated,
+    }));
 
   cache.set(cacheKey, states);
   return { data: states, fromCache: false };
@@ -103,13 +117,16 @@ async function getStateByCode(code) {
   }
 
   // Fetch state
-  const statesResponse = await fetchFromTeable(TABLE_IDS.states, `?filter=code="${code}"`);
+  const statesResponse = await fetchFromTeable(TABLE_IDS.states, buildTeableFilter('code', code));
   
-  if (!statesResponse.records || statesResponse.records.length === 0) {
+  // Filter to get only records with matching code (in case filter returns multiple)
+  const matchingRecords = statesResponse.records?.filter(r => r.fields.code === code) || [];
+  
+  if (matchingRecords.length === 0) {
     return { data: null, fromCache: false };
   }
 
-  const stateRecord = statesResponse.records[0];
+  const stateRecord = matchingRecords[0];
   const state = {
     code: stateRecord.fields.code,
     name: stateRecord.fields.name,
@@ -123,25 +140,31 @@ async function getStateByCode(code) {
   };
 
   // Fetch details
-  const detailsResponse = await fetchFromTeable(TABLE_IDS.details, `?filter=stateCode="${code}"`);
+  const detailsResponse = await fetchFromTeable(TABLE_IDS.details, buildTeableFilter('stateCode', code));
   if (detailsResponse.records) {
-    detailsResponse.records.forEach(record => {
-      const category = record.fields.category;
-      state.details[category] = {
-        required: record.fields.required,
-        description: record.fields.description,
-      };
-    });
+    detailsResponse.records
+      .filter(record => record.fields.stateCode === code) // Extra safety filter
+      .forEach(record => {
+        const category = record.fields.category;
+        if (category) {
+          state.details[category] = {
+            required: record.fields.required,
+            description: record.fields.description,
+          };
+        }
+      });
   }
 
   // Fetch resources
-  const resourcesResponse = await fetchFromTeable(TABLE_IDS.resources, `?filter=stateCode="${code}"`);
+  const resourcesResponse = await fetchFromTeable(TABLE_IDS.resources, buildTeableFilter('stateCode', code));
   if (resourcesResponse.records) {
-    state.resources = resourcesResponse.records.map(record => ({
-      title: record.fields.title,
-      url: record.fields.url,
-      resourceType: record.fields.resourceType,
-    }));
+    state.resources = resourcesResponse.records
+      .filter(record => record.fields.stateCode === code) // Extra safety filter
+      .map(record => ({
+        title: record.fields.title,
+        url: record.fields.url,
+        resourceType: record.fields.resourceType,
+      }));
   }
 
   cache.set(cacheKey, state);

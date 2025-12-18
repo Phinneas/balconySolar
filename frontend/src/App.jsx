@@ -50,11 +50,21 @@ function App() {
     }
   }, [states])
 
-  // Validate state data completeness
-  const isStateDataComplete = (state) => {
-    if (!state) return false
-    const requiredFields = ['code', 'name', 'abbreviation', 'isLegal', 'maxWattage', 'keyLaw', 'details', 'resources', 'lastUpdated']
-    return requiredFields.every(field => state.hasOwnProperty(field) && state[field] !== undefined && state[field] !== null)
+  // Determine state data status
+  const getStateDataStatus = (state) => {
+    if (!state) return 'missing'
+    
+    // Check if this is researched data
+    if (state.isLegal !== null && state.keyLaw !== 'Research needed') {
+      return 'researched'
+    }
+    
+    // Check if this needs research
+    if (state.keyLaw === 'Research needed') {
+      return 'needs_research'
+    }
+    
+    return 'incomplete'
   }
 
   const fetchWithRetry = async (url, retries = 0) => {
@@ -124,10 +134,15 @@ function App() {
         throw new Error('State not found')
       }
 
-      // Check if data is complete
-      if (!isStateDataComplete(data.state)) {
+      // Check data status and set appropriate messaging
+      const dataStatus = getStateDataStatus(data.state)
+      
+      if (dataStatus === 'needs_research') {
         setDataIncomplete(true)
-        setError(`Data pending for ${data.state.name}. Some information may be incomplete.`)
+        setError(`We're still researching ${data.state.name}'s balcony solar regulations. Check back soon for complete information, or contact your state representatives to ask about balcony solar policies.`)
+      } else if (dataStatus === 'incomplete') {
+        setDataIncomplete(true)
+        setError(`Information for ${data.state.name} may be incomplete. We're working to verify all details.`)
       }
 
       setSelectedState(data.state)
@@ -189,7 +204,7 @@ function App() {
       
       <main>
         {error && <div className="error" data-testid="error-message">{error}</div>}
-        {dataIncomplete && <div className="warning" data-testid="data-pending-message">⚠️ Data pending for this state. Some information may be incomplete.</div>}
+        {dataIncomplete && <div className="warning" data-testid="data-pending-message">ℹ️ {error}</div>}
         
         <div className="state-selector">
           <label htmlFor="state-select">Select your state:</label>
@@ -200,11 +215,13 @@ function App() {
             data-testid="state-select"
           >
             <option value="">-- Choose a state --</option>
-            {states.map(state => (
-              <option key={state.code} value={state.code}>
-                {state.name}
-              </option>
-            ))}
+            {states
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map(state => (
+                <option key={state.code} value={state.code}>
+                  {state.name}
+                </option>
+              ))}
           </select>
         </div>
 
@@ -214,16 +231,40 @@ function App() {
           <div className="state-results">
             <h2>{selectedState.name}</h2>
             <div className="legal-status">
-              {selectedState.isLegal ? (
+              {selectedState.isLegal === true ? (
                 <span className="legal">✅ LEGAL</span>
-              ) : (
+              ) : selectedState.isLegal === false ? (
                 <span className="illegal">❌ NOT LEGAL</span>
+              ) : (
+                <span className="unknown">❓ STATUS UNKNOWN</span>
               )}
             </div>
+            
+            {/* Contextual messaging based on legal status */}
+            {selectedState.isLegal === false && (
+              <div className="status-explanation">
+                <p><strong>⚠️ Balcony solar is not currently legal in {selectedState.name}.</strong></p>
+                <p>This state requires full utility interconnection agreements for all solar systems, making simple plug-in balcony solar systems impractical. Consider contacting your state representatives to advocate for balcony solar-friendly policies.</p>
+              </div>
+            )}
+            
+            {selectedState.isLegal === true && (
+              <div className="status-explanation">
+                <p><strong>🎉 Great news! Balcony solar is legal in {selectedState.name}.</strong></p>
+                <p>You can install a balcony solar system following the requirements below.</p>
+              </div>
+            )}
+            
+            {selectedState.isLegal === null && selectedState.keyLaw === 'Research needed' && (
+              <div className="status-explanation">
+                <p><strong>🔍 We're still researching {selectedState.name}'s regulations.</strong></p>
+                <p>Balcony solar laws vary by state and are evolving rapidly. We're working to get you accurate, up-to-date information. In the meantime, check with your local utility company or state energy office.</p>
+              </div>
+            )}
+
             <div className="state-info">
-              {selectedState.maxWattage && <p><strong>Max Wattage:</strong> {selectedState.maxWattage}W</p>}
-              {selectedState.keyLaw && <p><strong>Key Law:</strong> {selectedState.keyLaw}</p>}
-              {!selectedState.maxWattage && <p className="missing-data">Wattage information unavailable</p>}
+              {selectedState.maxWattage && selectedState.maxWattage > 0 && <p><strong>Max Wattage:</strong> {selectedState.maxWattage}W</p>}
+              {selectedState.keyLaw && selectedState.keyLaw !== 'Research needed' && <p><strong>Key Law:</strong> {selectedState.keyLaw}</p>}
             </div>
 
             {selectedState.resources && selectedState.resources.length > 0 && (

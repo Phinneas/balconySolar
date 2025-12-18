@@ -448,3 +448,45 @@ main {
     widows: 3;
   }
 }
+.status-explanation {
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+}
+
+.status-explanation p {
+  margin: 0.5rem 0;
+  line-height: 1.6;
+}
+
+.status-explanation p:first-child {
+  margin-top: 0;
+}
+
+.status-explanation p:last-child {
+  margin-bottom: 0;
+}
+
+.unknown {
+  color: #6b7280;
+  font-weight: bold;
+}
+
+/* Improve existing styles */
+.legal {
+  color: #059669;
+  font-weight: bold;
+}
+
+.illegal {
+  color: #dc2626;
+  font-weight: bold;
+}
+
+.legal-status {
+  font-size: 1.25rem;
+  margin: 1rem 0;
+  text-align: center;
+}
