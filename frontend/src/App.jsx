@@ -203,7 +203,7 @@ function App() {
       </header>
       
       <main>
-        {error && <div className="error" data-testid="error-message">{error}</div>}
+        {error && !dataIncomplete && <div className="error" data-testid="error-message">{error}</div>}
         {dataIncomplete && <div className="warning" data-testid="data-pending-message">ℹ️ {error}</div>}
         
         <div className="state-selector">
