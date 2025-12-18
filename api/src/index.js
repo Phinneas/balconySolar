@@ -93,7 +93,6 @@ async function getAllStates() {
 
   const response = await fetchFromTeable(TABLE_IDS.states);
   const states = response.records
-    .filter(record => record.fields.code && record.fields.name) // Filter out empty/incomplete records
     .map(record => ({
       code: record.fields.code,
       name: record.fields.name,
