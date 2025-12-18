@@ -331,12 +331,12 @@ function App() {
                 </li>
                 <li>
                   <a 
-                    href="https://www.solarcurrents.com/solar-comparison" 
+                    href="https://www.solarcurrents.co/balcony-solar-panel-kit-guide/" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     data-testid="related-comparison-link"
                   >
-                    Solar System Comparison Tool
+                    Balcony Solar Panel Kit Guide
                   </a>
                 </li>
                 <li>
