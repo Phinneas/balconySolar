@@ -321,7 +321,7 @@ function App() {
               <ul className="related-links">
                 <li>
                   <a 
-                    href="https://www.solarcurrents.com/balcony-solar-guide" 
+                    href="https://www.solarcurrents.co/balcony-solar-installation-guide-2026/" 
                     target="_blank" 
                     rel="noopener noreferrer"
                     data-testid="related-guide-link"
