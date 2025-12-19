@@ -230,6 +230,42 @@ function App() {
           </select>
         </div>
 
+        <div className="related-content" data-testid="related-content">
+          <h3>Related SolarCurrents Content</h3>
+          <ul className="related-links">
+            <li>
+              <a 
+                href="https://www.solarcurrents.co/balcony-solar-installation-guide-2026/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                data-testid="related-guide-link"
+              >
+                Complete Balcony Solar Installation Guide
+              </a>
+            </li>
+            <li>
+              <a 
+                href="https://www.solarcurrents.co/balcony-solar-panel-kit-guide/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                data-testid="related-comparison-link"
+              >
+                Balcony Solar Panel Kit Guide
+              </a>
+            </li>
+            <li>
+              <a 
+                href="https://www.solarcurrents.com/solar-companies" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                data-testid="related-companies-link"
+              >
+                Find Solar Companies Near You
+              </a>
+            </li>
+          </ul>
+        </div>
+
         {loading && <div className="loading" data-testid="loading-indicator">Loading...</div>}
 
         {selectedState && (
@@ -316,41 +352,7 @@ function App() {
               </a>
             </div>
 
-            <div className="related-content" data-testid="related-content">
-              <h3>Related SolarCurrents Content</h3>
-              <ul className="related-links">
-                <li>
-                  <a 
-                    href="https://www.solarcurrents.co/balcony-solar-installation-guide-2026/" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    data-testid="related-guide-link"
-                  >
-                    Complete Balcony Solar Installation Guide
-                  </a>
-                </li>
-                <li>
-                  <a 
-                    href="https://www.solarcurrents.co/balcony-solar-panel-kit-guide/" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    data-testid="related-comparison-link"
-                  >
-                    Balcony Solar Panel Kit Guide
-                  </a>
-                </li>
-                <li>
-                  <a 
-                    href="https://www.solarcurrents.com/solar-companies" 
-                    target="_blank" 
-                    rel="noopener noreferrer"
-                    data-testid="related-companies-link"
-                  >
-                    Find Solar Companies Near You
-                  </a>
-                </li>
-              </ul>
-            </div>
+
           </div>
         )}
       </main>
