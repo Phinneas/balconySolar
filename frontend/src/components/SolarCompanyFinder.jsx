@@ -262,7 +262,7 @@ function SolarCompanyFinder({ stateCode, stateName, apiUrl }) {
         <div className="solarcurrents-link">
           <p>Looking for solar companies in other locations?</p>
           <a
-            href="https://www.solarcurrents.com/solar-companies"
+            href="https://www.solarcurrents.co/solar-companies"
             target="_blank"
             rel="noopener noreferrer"
             className="solarcurrents-button"

@@ -103,7 +103,7 @@ describe('SolarCurrents Integration', () => {
           },
           {
             title: 'California Solar Guide',
-            url: 'https://www.solarcurrents.com/ca-guide',
+            url: 'https://www.solarcurrents.co/ca-guide',
             resourceType: 'guide'
           }
         ]
@@ -489,24 +489,24 @@ describe('SolarCurrents Integration', () => {
       // Verify newsletter link
       const newsletterLink = screen.getByTestId('newsletter-link')
       expect(newsletterLink).toBeInTheDocument()
-      expect(newsletterLink.href).toBe('https://www.solarcurrents.com/newsletter')
+      expect(newsletterLink.href).toBe('https://www.solarcurrents.co/newsletter')
       expect(newsletterLink.target).toBe('_blank')
       expect(newsletterLink.rel).toContain('noopener')
 
       // Verify related content links
       const guideLink = screen.getByTestId('related-guide-link')
       expect(guideLink).toBeInTheDocument()
-      expect(guideLink.href).toBe('https://www.solarcurrents.com/balcony-solar-guide')
+      expect(guideLink.href).toBe('https://www.solarcurrents.co/balcony-solar-guide')
       expect(guideLink.target).toBe('_blank')
 
       const comparisonLink = screen.getByTestId('related-comparison-link')
       expect(comparisonLink).toBeInTheDocument()
-      expect(comparisonLink.href).toBe('https://www.solarcurrents.com/solar-comparison')
+      expect(comparisonLink.href).toBe('https://www.solarcurrents.co/solar-comparison')
       expect(comparisonLink.target).toBe('_blank')
 
       const companiesLink = screen.getByTestId('related-companies-link')
       expect(companiesLink).toBeInTheDocument()
-      expect(companiesLink.href).toBe('https://www.solarcurrents.com/solar-companies')
+      expect(companiesLink.href).toBe('https://www.solarcurrents.co/solar-companies')
       expect(companiesLink.target).toBe('_blank')
     })
 
@@ -568,7 +568,7 @@ describe('SolarCurrents Integration', () => {
       // Verify all external links have proper security attributes
       const allLinks = screen.getAllByRole('link')
       allLinks.forEach(link => {
-        if (link.href.includes('solarcurrents.com') || link.href.includes('dps.ny.gov')) {
+        if (link.href.includes('solarcurrents.co') || link.href.includes('dps.ny.gov')) {
           expect(link.target).toBe('_blank')
           expect(link.rel).toContain('noopener')
           expect(link.rel).toContain('noreferrer')

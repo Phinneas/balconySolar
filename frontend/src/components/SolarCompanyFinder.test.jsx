@@ -660,7 +660,7 @@ describe('SolarCompanyFinder Component', () => {
       render(<SolarCompanyFinder {...defaultProps} />)
       
       const link = screen.getByTestId('solarcurrents-companies-link')
-      expect(link).toHaveAttribute('href', 'https://www.solarcurrents.com/solar-companies')
+      expect(link).toHaveAttribute('href', 'https://www.solarcurrents.co/solar-companies')
       expect(link).toHaveAttribute('target', '_blank')
       expect(link).toHaveAttribute('rel', 'noopener noreferrer')
     })

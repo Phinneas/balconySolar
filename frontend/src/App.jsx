@@ -256,7 +256,7 @@ function App() {
             </li>
             <li>
               <a 
-                href="https://www.solarcurrents.com/solar-companies" 
+                href="https://www.solarcurrents.co/solar-companies" 
                 target="_blank" 
                 rel="noopener noreferrer"
                 data-testid="related-companies-link"
@@ -343,7 +343,7 @@ function App() {
               <h3>Stay Updated on Solar Regulations</h3>
               <p>Get the latest balcony solar news and regulatory updates delivered to your inbox.</p>
               <a
-                href="https://www.solarcurrents.com/newsletter"
+                href="https://www.solarcurrents.co/newsletter"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="newsletter-button"
