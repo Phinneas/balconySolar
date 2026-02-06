@@ -57,8 +57,7 @@ function checkDailyRateLimit() {
  * Google Places API helper functions
  */
 
-async function callGooglePlacesTextSearch(query) {
-  const apiKey = typeof GOOGLE_PLACES_API_KEY !== 'undefined' ? GOOGLE_PLACES_API_KEY : null;
+async function callGooglePlacesTextSearch(query, apiKey) {
   if (!apiKey) {
     throw new APIError('Google Places API key not configured', 500, 'CONFIG_ERROR');
   }
@@ -92,8 +91,7 @@ async function callGooglePlacesTextSearch(query) {
   }
 }
 
-async function callGooglePlaceDetails(placeId) {
-  const apiKey = typeof GOOGLE_PLACES_API_KEY !== 'undefined' ? GOOGLE_PLACES_API_KEY : null;
+async function callGooglePlaceDetails(placeId, apiKey) {
   if (!apiKey) {
     throw new APIError('Google Places API key not configured', 500, 'CONFIG_ERROR');
   }
@@ -271,7 +269,7 @@ function getCacheHeaders(fromCache = false) {
   };
 }
 
-async function handleRequest(request) {
+async function handleRequest(request, env = {}) {
   const url = new URL(request.url);
   const path = url.pathname;
 
@@ -508,7 +506,7 @@ async function handleRequest(request) {
       try {
         // Call Google Places Text Search API
         const searchQuery = `solar panel installation companies near ${zip}`;
-        const results = await callGooglePlacesTextSearch(searchQuery);
+        const results = await callGooglePlacesTextSearch(searchQuery, env.GOOGLE_PLACES_API_KEY);
 
         if (!results || results.length === 0) {
           return new Response(JSON.stringify({
@@ -535,7 +533,7 @@ async function handleRequest(request) {
         // Fetch Place Details for top 5 results (phone and website)
         const topFive = companies.slice(0, 5);
         const detailsPromises = topFive.map(async (company) => {
-          const details = await callGooglePlaceDetails(company.placeId);
+          const details = await callGooglePlaceDetails(company.placeId, env.GOOGLE_PLACES_API_KEY);
           if (details) {
             company.phone = details.phone || null;
             company.website = details.website || null;
@@ -590,5 +588,5 @@ async function handleRequest(request) {
 }
 
 export default {
-  fetch: handleRequest,
+  fetch: (request, env, ctx) => handleRequest(request, env),
 };
