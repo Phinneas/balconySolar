@@ -5,12 +5,13 @@
 
 import CacheManager from './cache.js';
 import AnalyticsService from './analytics.js';
-import { 
-  APIError, 
-  NotFoundError, 
-  TimeoutError, 
+import {
+  APIError,
+  NotFoundError,
+  TimeoutError,
   ExternalServiceError,
-  formatErrorResponse 
+  RateLimitError,
+  formatErrorResponse
 } from './errors.js';
 
 const TEABLE_API_URL = 'https://app.teable.ai/api';
@@ -34,6 +35,93 @@ const analytics = new AnalyticsService({
   maxEventsInMemory: 10000,
   maxFeedbackInMemory: 1000,
 });
+
+// Solar companies cache manager with 7-day TTL
+const solarCompaniesCache = new CacheManager(7 * 24 * 60 * 60 * 1000);
+
+// Daily rate limiting tracker for solar companies API (100 requests/day)
+let dailyRequestCount = 0;
+let dailyRequestResetDate = new Date().toDateString();
+const MAX_DAILY_REQUESTS = 100;
+
+function checkDailyRateLimit() {
+  const currentDate = new Date().toDateString();
+  if (currentDate !== dailyRequestResetDate) {
+    dailyRequestCount = 0;
+    dailyRequestResetDate = currentDate;
+  }
+  return dailyRequestCount < MAX_DAILY_REQUESTS;
+}
+
+/**
+ * Google Places API helper functions
+ */
+
+async function callGooglePlacesTextSearch(query) {
+  const apiKey = typeof GOOGLE_PLACES_API_KEY !== 'undefined' ? GOOGLE_PLACES_API_KEY : null;
+  if (!apiKey) {
+    throw new APIError('Google Places API key not configured', 500, 'CONFIG_ERROR');
+  }
+
+  const url = `https://maps.googleapis.com/maps/api/place/textsearch/json?query=${encodeURIComponent(query)}&key=${apiKey}`;
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 10000); // 10 second timeout
+
+  try {
+    const response = await fetch(url, { signal: controller.signal });
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new ExternalServiceError(`Google Places API error: ${errorData.error_message || response.status}`);
+    }
+
+    const data = await response.json();
+
+    if (data.status !== 'OK') {
+      throw new ExternalServiceError(`Google Places API: ${data.error_message || data.status}`);
+    }
+
+    return data.results;
+  } catch (error) {
+    if (error.name === 'AbortError') {
+      throw new TimeoutError('Google Places API request timeout');
+    }
+    throw error;
+  }
+}
+
+async function callGooglePlaceDetails(placeId) {
+  const apiKey = typeof GOOGLE_PLACES_API_KEY !== 'undefined' ? GOOGLE_PLACES_API_KEY : null;
+  if (!apiKey) {
+    throw new APIError('Google Places API key not configured', 500, 'CONFIG_ERROR');
+  }
+
+  const url = `https://maps.googleapis.com/maps/api/place/details/json?place_id=${placeId}&fields=phone,website&key=${apiKey}`;
+
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), 5000); // 5 second timeout
+
+  try {
+    const response = await fetch(url, { signal: controller.signal });
+    clearTimeout(timeoutId);
+
+    if (!response.ok) {
+      return null; // Silently fail for details to avoid breaking main results
+    }
+
+    const data = await response.json();
+
+    if (data.status !== 'OK') {
+      return null;
+    }
+
+    return data.result;
+  } catch (error) {
+    return null; // Silently fail for details
+  }
+}
 
 function buildTeableFilter(fieldId, value) {
   const filter = {
@@ -369,7 +457,7 @@ async function handleRequest(request) {
     if (path === '/api/analytics/feedback' && request.method === 'GET') {
       const authHeader = request.headers.get('Authorization');
       const token = authHeader ? authHeader.replace('Bearer ', '') : null;
-      
+
       if (!token || token !== CACHE_INVALIDATE_TOKEN) {
         return new Response(JSON.stringify({ error: 'Unauthorized' }), {
           status: 401,
@@ -383,6 +471,104 @@ async function handleRequest(request) {
       return new Response(JSON.stringify(summary), {
         headers: { 'Content-Type': 'application/json', ...corsHeaders },
       });
+    }
+
+    // GET /api/solar-companies - Find solar companies near a zip code
+    if (path === '/api/solar-companies' && request.method === 'GET') {
+      const zip = url.searchParams.get('zip');
+      const state = url.searchParams.get('state');
+
+      // Validate zip code
+      if (!zip || !zip.match(/^\d{5}$/)) {
+        return new Response(JSON.stringify({
+          error: 'Invalid zip code. Must be a 5-digit US zip code.'
+        }), {
+          status: 400,
+          headers: { 'Content-Type': 'application/json', ...corsHeaders },
+        });
+      }
+
+      // Check cache first
+      const cacheKey = `solar-companies-${zip}`;
+      const cached = solarCompaniesCache.get(cacheKey);
+      if (cached) {
+        return new Response(JSON.stringify(cached), {
+          headers: { 'Content-Type': 'application/json', ...corsHeaders, ...getCacheHeaders(true) },
+        });
+      }
+
+      // Check daily rate limit
+      if (!checkDailyRateLimit()) {
+        throw new RateLimitError('Daily API request limit exceeded. Please try again tomorrow.');
+      }
+
+      // Increment request counter
+      dailyRequestCount++;
+
+      try {
+        // Call Google Places Text Search API
+        const searchQuery = `solar panel installation companies near ${zip}`;
+        const results = await callGooglePlacesTextSearch(searchQuery);
+
+        if (!results || results.length === 0) {
+          return new Response(JSON.stringify({
+            companies: [],
+            resultCount: 0,
+            searchedZip: zip,
+          }), {
+            headers: { 'Content-Type': 'application/json', ...corsHeaders, ...getCacheHeaders(false) },
+          });
+        }
+
+        // Map top 10 results to clean objects
+        const companies = results.slice(0, 10).map(place => ({
+          name: place.name,
+          address: place.formatted_address,
+          rating: place.rating || null,
+          reviewCount: place.user_ratings_total || 0,
+          businessStatus: place.business_status || 'UNKNOWN',
+          placeId: place.place_id,
+          phone: null,
+          website: null,
+        }));
+
+        // Fetch Place Details for top 5 results (phone and website)
+        const topFive = companies.slice(0, 5);
+        const detailsPromises = topFive.map(async (company) => {
+          const details = await callGooglePlaceDetails(company.placeId);
+          if (details) {
+            company.phone = details.phone || null;
+            company.website = details.website || null;
+          }
+        });
+
+        await Promise.all(detailsPromises);
+
+        const response = {
+          companies: companies,
+          resultCount: companies.length,
+          searchedZip: zip,
+        };
+
+        // Cache result for 7 days
+        solarCompaniesCache.set(cacheKey, response);
+
+        return new Response(JSON.stringify(response), {
+          headers: { 'Content-Type': 'application/json', ...corsHeaders, ...getCacheHeaders(false) },
+        });
+      } catch (error) {
+        console.error('Solar companies API error:', error);
+
+        if (error instanceof RateLimitError) {
+          throw error;
+        }
+
+        if (error instanceof TimeoutError || error instanceof ExternalServiceError) {
+          throw error;
+        }
+
+        throw new ExternalServiceError('Failed to fetch solar companies');
+      }
     }
 
     // 404

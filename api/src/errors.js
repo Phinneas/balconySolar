@@ -39,6 +39,13 @@ export class ExternalServiceError extends APIError {
   }
 }
 
+export class RateLimitError extends APIError {
+  constructor(message = 'Rate limit exceeded') {
+    super(message, 429, 'RATE_LIMIT_EXCEEDED');
+    this.name = 'RateLimitError';
+  }
+}
+
 export function formatErrorResponse(error) {
   if (error instanceof APIError) {
     return {

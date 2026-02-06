@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import './App.css'
+import SolarCompanyFinder from './components/SolarCompanyFinder'
 
 function App() {
   const [states, setStates] = useState([])
@@ -341,9 +342,9 @@ function App() {
             <div className="newsletter-cta" data-testid="newsletter-cta">
               <h3>Stay Updated on Solar Regulations</h3>
               <p>Get the latest balcony solar news and regulatory updates delivered to your inbox.</p>
-              <a 
-                href="https://www.solarcurrents.com/newsletter" 
-                target="_blank" 
+              <a
+                href="https://www.solarcurrents.com/newsletter"
+                target="_blank"
                 rel="noopener noreferrer"
                 className="newsletter-button"
                 data-testid="newsletter-link"
@@ -352,6 +353,13 @@ function App() {
               </a>
             </div>
 
+            {selectedState.isLegal === true && (
+              <SolarCompanyFinder
+                stateCode={selectedState.code}
+                stateName={selectedState.name}
+                apiUrl={apiUrl}
+              />
+            )}
 
           </div>
         )}
