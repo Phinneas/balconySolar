@@ -2,3 +2,7 @@
 name = "balcony-solar-checker"
 compatibility_date = "2024-12-09"
 pages_build_output_dir = "frontend/dist"
+
+[build]
+command = "cd frontend && npm install && npm run build"
+cwd = "."
