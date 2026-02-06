@@ -647,4 +647,60 @@ describe('SolarCompanyFinder Component', () => {
       })
     })
   })
+
+  describe('SolarCurrents Link', () => {
+    it('displays SolarCurrents link when no search has been performed', () => {
+      render(<SolarCompanyFinder {...defaultProps} />)
+      
+      expect(screen.getByTestId('solarcurrents-companies-link')).toBeInTheDocument()
+      expect(screen.getByText('Browse Solar Companies Nationwide')).toBeInTheDocument()
+    })
+
+    it('links to SolarCurrents solar companies page', () => {
+      render(<SolarCompanyFinder {...defaultProps} />)
+      
+      const link = screen.getByTestId('solarcurrents-companies-link')
+      expect(link).toHaveAttribute('href', 'https://www.solarcurrents.com/solar-companies')
+      expect(link).toHaveAttribute('target', '_blank')
+      expect(link).toHaveAttribute('rel', 'noopener noreferrer')
+    })
+
+    it('displays SolarCurrents link when no companies found', async () => {
+      const user = userEvent.setup()
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ companies: [], resultCount: 0, searchedZip: '90210' }),
+      })
+      
+      render(<SolarCompanyFinder {...defaultProps} />)
+      
+      await user.type(screen.getByLabelText('Zip code'), '90210')
+      await user.click(screen.getByTestId('search-button'))
+      
+      await waitFor(() => {
+        expect(screen.getByTestId('no-results')).toBeInTheDocument()
+      })
+      
+      expect(screen.getByTestId('solarcurrents-companies-link')).toBeInTheDocument()
+    })
+
+    it('does not display SolarCurrents link when companies are found', async () => {
+      const user = userEvent.setup()
+      mockFetch.mockResolvedValueOnce({
+        ok: true,
+        json: async () => ({ companies: [{ name: 'Company A', address: 'Address A', placeId: 'A' }], resultCount: 1, searchedZip: '90210' }),
+      })
+      
+      render(<SolarCompanyFinder {...defaultProps} />)
+      
+      await user.type(screen.getByLabelText('Zip code'), '90210')
+      await user.click(screen.getByTestId('search-button'))
+      
+      await waitFor(() => {
+        expect(screen.getByTestId('companies-grid')).toBeInTheDocument()
+      })
+      
+      expect(screen.queryByTestId('solarcurrents-companies-link')).not.toBeInTheDocument()
+    })
+  })
 })

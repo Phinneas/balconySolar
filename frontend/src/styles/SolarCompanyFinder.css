@@ -389,3 +389,57 @@
     font-size: 0.8rem;
   }
 }
+
+/* SolarCurrents promo link */
+.solarcurrents-link {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid #e5e7eb;
+  text-align: center;
+}
+
+.solarcurrents-link p {
+  margin-bottom: 0.75rem;
+  color: #6b7280;
+  font-size: 0.9rem;
+}
+
+.solarcurrents-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #f0f9ff;
+  color: #0369a1;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  border: 2px solid #0369a1;
+  min-height: 44px;
+}
+
+.solarcurrents-button:hover {
+  background-color: #0369a1;
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(3, 105, 161, 0.3);
+}
+
+.solarcurrents-button:active {
+  transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .solarcurrents-button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media print {
+  .solarcurrents-link {
+    display: none !important;
+  }
+}

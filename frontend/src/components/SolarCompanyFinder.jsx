@@ -257,6 +257,21 @@ function SolarCompanyFinder({ stateCode, stateName, apiUrl }) {
           <p>Try entering a nearby zip code or contact your local utility company for recommendations.</p>
         </div>
       )}
+
+      {companies.length === 0 && !error && (
+        <div className="solarcurrents-link">
+          <p>Looking for solar companies in other locations?</p>
+          <a
+            href="https://www.solarcurrents.com/solar-companies"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="solarcurrents-button"
+            data-testid="solarcurrents-companies-link"
+          >
+            Browse Solar Companies Nationwide
+          </a>
+        </div>
+      )}
     </div>
   );
 }
